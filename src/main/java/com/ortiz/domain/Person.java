@@ -1,0 +1,12 @@
+package com.ortiz.domain;
+
+import com.ortiz.domain.enums.PersonTypeEnum;
+import lombok.Data;
+
+@Data
+public class Person {
+    private PersonIdentity personIdentity;
+    private PersonTypeEnum personType;
+    private String tenantId;
+    private String fullName;
+}
