@@ -10,8 +10,9 @@ import javax.persistence.InheritanceType;
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Person {
+public abstract class Person {
     @EmbeddedId
     private PersonId personId;
+    private String type;
     private String name;
 }

@@ -4,9 +4,10 @@ import com.ortiz.domain.enums.PersonTypeEnum;
 import lombok.Data;
 
 @Data
-public class Person {
+public abstract class Person {
     private PersonIdentity personIdentity;
-    private PersonTypeEnum personType;
+    //private PersonTypeEnum personType;
+    private String personType;
     private String tenantId;
     private String fullName;
 }
