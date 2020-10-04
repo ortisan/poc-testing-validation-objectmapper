@@ -9,29 +9,20 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {IPersonTypeEnumMapper.class})
+@Mapper(componentModel = "spring", config = CentralConfig.class, uses = {IPersonTypeEnumMapper.class})
 public interface IPersonRepositoryMapper {
 
-    @Mapping(source = "fullName", target = "name")
-    @Mapping(source = "personType", target = "type")
     @Mapping(source = "cpf", target = "cpf")
-    @Mapping(source = "tenantId", target = "personId.tenantId")
-    @Mapping(source = "personIdentity.id", target = "personId.personId")
-    PhisicalPerson domainToEntity(com.ortiz.domain.PhisicalPerson phisicalPerson);
+    PhisicalPerson phisicalPersonDomainToEntity(com.ortiz.domain.PhisicalPerson phisicalPerson);
 
-    @Mapping(source = "fullName", target = "name")
-    @Mapping(source = "personType", target = "type")
     @Mapping(source = "cnpj", target = "cnpj")
-    @Mapping(source = "tenantId", target = "personId.tenantId")
-    @Mapping(source = "personIdentity.id", target = "personId.personId")
-    Corporate domainToEntity(com.ortiz.domain.Corporate corporate);
+    Corporate corporateDomainToEntity(com.ortiz.domain.Corporate corporate);
 
-    @InheritInverseConfiguration
+    @InheritInverseConfiguration(name = "phisicalPersonDomainToEntity")
     com.ortiz.domain.PhisicalPerson entityToDomain(PhisicalPerson corporate);
 
-    @InheritInverseConfiguration
+    @InheritInverseConfiguration(name = "corporateDomainToEntity")
     com.ortiz.domain.Corporate entityToDomain(Corporate corporate);
-
 
     default com.ortiz.domain.Person mapToDomain(Person person) {
         if (person instanceof PhisicalPerson) {
@@ -42,8 +33,8 @@ public interface IPersonRepositoryMapper {
 
     default Person mapToEntity(com.ortiz.domain.Person person) {
         if (person instanceof com.ortiz.domain.PhisicalPerson) {
-            return this.domainToEntity((com.ortiz.domain.PhisicalPerson) person);
+            return this.phisicalPersonDomainToEntity((com.ortiz.domain.PhisicalPerson) person);
         }
-        return this.domainToEntity((com.ortiz.domain.Corporate) person);
+        return this.corporateDomainToEntity((com.ortiz.domain.Corporate) person);
     }
 }

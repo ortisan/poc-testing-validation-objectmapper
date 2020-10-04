@@ -8,25 +8,19 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {IPersonTypeEnumMapper.class})
+@Mapper(componentModel = "spring", config = CentralConfig.class, uses = {IPersonTypeEnumMapper.class})
 public interface IPersonBusinessMapper {
 
-    @Mapping(source = "name", target = "fullName")
     @Mapping(source = "cpf_cnpj", target = "cpf")
-    @Mapping(source = "type", target = "personType")
-    @Mapping(source = "id", target = "personIdentity.id")
     PhisicalPerson dtoToPhisicalPersonDomain(PersonDTO source);
 
-    @Mapping(source = "name", target = "fullName")
     @Mapping(source = "cpf_cnpj", target = "cnpj")
-    @Mapping(source = "type", target = "personType")
-    @Mapping(source = "id", target = "personIdentity.id")
     Corporate dtoToCorporateDomain(PersonDTO source);
 
-    @InheritInverseConfiguration
+    @InheritInverseConfiguration(name = "dtoToPhisicalPersonDomain")
     PersonDTO domainToDto(PhisicalPerson source);
 
-    @InheritInverseConfiguration
+    @InheritInverseConfiguration(name = "dtoToCorporateDomain")
     PersonDTO domainToDto(Corporate source);
 
     default PersonDTO mapToDto(Person person) {
