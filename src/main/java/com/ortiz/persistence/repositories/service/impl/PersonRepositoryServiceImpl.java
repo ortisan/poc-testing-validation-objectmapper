@@ -1,14 +1,19 @@
 package com.ortiz.persistence.repositories.service.impl;
 
+import com.ortiz.domain.DocumentTypeEnum;
 import com.ortiz.domain.Person;
+import com.ortiz.domain.enums.PersonTypeEnum;
 import com.ortiz.persistence.entities.PersonId;
+import com.ortiz.persistence.entities.PersonIdentity;
 import com.ortiz.persistence.mapper.IPersonRepositoryMapper;
+import com.ortiz.persistence.repositories.jpa.IPersonIdentityRepositoryJpa;
 import com.ortiz.persistence.repositories.jpa.IPersonRepositoryJpa;
 import com.ortiz.persistence.repositories.service.IPersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,7 +24,11 @@ public class PersonRepositoryServiceImpl implements IPersonRepository {
     private IPersonRepositoryJpa personRepositoryJpa;
 
     @Autowired
+    private IPersonIdentityRepositoryJpa personIdentityRepositoryJpa;
+
+    @Autowired
     private IPersonRepositoryMapper personRepositoryMapper;
+
 
     @Override
     public Person getPerson(String tenantId, String personId) {
@@ -30,9 +39,28 @@ public class PersonRepositoryServiceImpl implements IPersonRepository {
 
     @Override
     public Person savePerson(Person person) {
+        final PersonIdentity personIdentity = getOrCreatePersonIdentity(person);
         final com.ortiz.persistence.entities.Person personEntity = personRepositoryMapper.mapToEntity(person);
-        personEntity.getPersonId().setPersonId(UUID.randomUUID().toString());
+        personEntity.getPersonId().setPersonId(personIdentity.getId());
         final com.ortiz.persistence.entities.Person personEntitySaved = personRepositoryJpa.save(personEntity);
         return personRepositoryMapper.mapToDomain(personEntitySaved);
+    }
+
+    private PersonIdentity getOrCreatePersonIdentity(Person person) {
+        final DocumentTypeEnum documentTypeEnum;
+        if (person.getPersonType() == PersonTypeEnum.PHISICAL) {
+            documentTypeEnum = DocumentTypeEnum.CPF;
+        } else {
+            documentTypeEnum = DocumentTypeEnum.CNPJ;
+        }
+        final String documentNumber;
+        if (person instanceof com.ortiz.domain.PhisicalPerson) {
+            documentNumber = ((com.ortiz.domain.PhisicalPerson) person).getCpf();
+        } else {
+            documentNumber = ((com.ortiz.domain.Corporate) person).getCnpj();
+        }
+        final Collection<PersonIdentity> identities = personIdentityRepositoryJpa.findByDocumentTypeAndNumber(documentTypeEnum, documentNumber);
+        final PersonIdentity personIdentity = identities.stream().findFirst().orElseGet(() -> personIdentityRepositoryJpa.save(new PersonIdentity(UUID.randomUUID().toString(), documentTypeEnum, documentNumber, "BR")));
+        return personIdentity;
     }
 }
