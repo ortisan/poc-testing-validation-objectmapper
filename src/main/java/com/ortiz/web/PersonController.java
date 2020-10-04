@@ -5,6 +5,8 @@ import com.ortiz.dto.PersonDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class PersonController {
 
@@ -17,7 +19,7 @@ public class PersonController {
     }
 
     @PostMapping("/tenant/{tenant_id}/person")
-    private PersonDTO savePerson(@PathVariable(name = "tenant_id") String tenantId, @RequestBody PersonDTO personDTO) {
+    private PersonDTO savePerson(@PathVariable(name = "tenant_id") String tenantId, @Valid @RequestBody PersonDTO personDTO) {
         personDTO.setTenantId(tenantId);
         return personService.savePerson(personDTO);
     }
