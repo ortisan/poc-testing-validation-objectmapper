@@ -1,49 +1,35 @@
 package com.ortiz.persistence.mapper;
 
 
+import com.ortiz.domain.mapper.IPersonTypeEnumMapper;
 import com.ortiz.persistence.entities.Corporate;
 import com.ortiz.persistence.entities.Person;
 import com.ortiz.persistence.entities.PhisicalPerson;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {IPersonTypeEnumMapper.class})
 public interface IPersonRepositoryMapper {
-//    @Mapping(source = "fullName", target = "name")
-//    @Mapping(source = "personType", target = "type")
-//    Person personDomainToPersonEntity(com.ortiz.domain.Person person);
-
-    //@Mapping(source = "name", target = "fullName")
-//    @InheritInverseConfiguration
-//    com.ortiz.domain.Person personEntityToPersonDomain(Person person);
-
-    //@InheritConfiguration
-    //void carDtoIntoCar(com.ortiz.domain.Person personDomain, @MappingTarget Person personEntity);
 
     @Mapping(source = "fullName", target = "name")
     @Mapping(source = "personType", target = "type")
     @Mapping(source = "cpf", target = "cpf")
     @Mapping(source = "tenantId", target = "personId.tenantId")
+    @Mapping(source = "personIdentity.id", target = "personId.personId")
     PhisicalPerson domainToEntity(com.ortiz.domain.PhisicalPerson phisicalPerson);
 
     @Mapping(source = "fullName", target = "name")
     @Mapping(source = "personType", target = "type")
     @Mapping(source = "cnpj", target = "cnpj")
     @Mapping(source = "tenantId", target = "personId.tenantId")
+    @Mapping(source = "personIdentity.id", target = "personId.personId")
     Corporate domainToEntity(com.ortiz.domain.Corporate corporate);
 
-    @Mapping(source = "name", target = "fullName")
-    @Mapping(source = "type", target = "personType")
-    @Mapping(source = "cpf", target = "cpf")
-    @Mapping(source = "personId.tenantId", target = "tenantId")
-    @Mapping(source = "personId.personId", target = "personIdentity.id")
+    @InheritInverseConfiguration
     com.ortiz.domain.PhisicalPerson entityToDomain(PhisicalPerson corporate);
 
-    @Mapping(source = "name", target = "fullName")
-    @Mapping(source = "type", target = "personType")
-    @Mapping(source = "cnpj", target = "cnpj")
-    @Mapping(source = "personId.tenantId", target = "tenantId")
-    @Mapping(source = "personId.personId", target = "personIdentity.id")
+    @InheritInverseConfiguration
     com.ortiz.domain.Corporate entityToDomain(Corporate corporate);
 
 
@@ -60,6 +46,4 @@ public interface IPersonRepositoryMapper {
         }
         return this.domainToEntity((com.ortiz.domain.Corporate) person);
     }
-
-
 }

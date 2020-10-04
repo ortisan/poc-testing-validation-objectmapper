@@ -8,13 +8,18 @@ public enum PersonTypeEnum {
 
     private final String type;
 
+
     PersonTypeEnum(String type) {
         this.type = type;
     }
 
-    private Map<String, PersonTypeEnum> valuesByPersonType;
+    public String getType() {
+        return type;
+    }
 
-    public PersonTypeEnum getPersonTypeEnumByPersonType(String personType) {
+    private static Map<String, PersonTypeEnum> valuesByPersonType;
+
+    public static PersonTypeEnum getPersonTypeEnumByPersonType(String personType) {
         if (valuesByPersonType == null || valuesByPersonType.isEmpty()) {
             valuesByPersonType = new HashMap<>();
             for (PersonTypeEnum personTypeEnum : PersonTypeEnum.values()) {
