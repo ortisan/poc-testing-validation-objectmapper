@@ -43,6 +43,18 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.mvallim</groupId>
+            <artifactId>java-fluent-validator</artifactId>
+            <version>1.9.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.com.caelum.stella</groupId>
+            <artifactId>caelum-stella-core</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
         <!-- H2 Database -->
         <dependency>
             <groupId>com.h2database</groupId>

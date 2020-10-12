@@ -1,7 +1,9 @@
 package com.ortiz.persistence.repositories.service.impl;
 
+import com.ortiz.domain.CorporatePerson;
 import com.ortiz.domain.DocumentTypeEnum;
 import com.ortiz.domain.Person;
+import com.ortiz.domain.PhysicalPerson;
 import com.ortiz.domain.enums.PersonTypeEnum;
 import com.ortiz.persistence.entities.PersonId;
 import com.ortiz.persistence.entities.PersonIdentity;
@@ -42,6 +44,14 @@ public class PersonRepositoryServiceImpl implements IPersonRepository {
         final PersonIdentity personIdentity = getOrCreatePersonIdentity(person);
         final com.ortiz.persistence.entities.Person personEntity = personRepositoryMapper.mapToEntity(person);
         personEntity.getPersonId().setPersonId(personIdentity.getId());
+        personEntity.getPhones().forEach(phone -> phone.setId(UUID.randomUUID().toString()));
+        final com.ortiz.persistence.entities.Person personEntitySaved = personRepositoryJpa.save(personEntity);
+        return personRepositoryMapper.mapToDomain(personEntitySaved);
+    }
+
+    @Override
+    public Person updatePerson(Person person) {
+        final com.ortiz.persistence.entities.Person personEntity = personRepositoryMapper.mapToEntity(person);
         final com.ortiz.persistence.entities.Person personEntitySaved = personRepositoryJpa.save(personEntity);
         return personRepositoryMapper.mapToDomain(personEntitySaved);
     }
@@ -54,10 +64,10 @@ public class PersonRepositoryServiceImpl implements IPersonRepository {
             documentTypeEnum = DocumentTypeEnum.CNPJ;
         }
         final String documentNumber;
-        if (person instanceof com.ortiz.domain.PhisicalPerson) {
-            documentNumber = ((com.ortiz.domain.PhisicalPerson) person).getCpf();
+        if (person instanceof PhysicalPerson) {
+            documentNumber = ((PhysicalPerson) person).getCpf();
         } else {
-            documentNumber = ((com.ortiz.domain.Corporate) person).getCnpj();
+            documentNumber = ((CorporatePerson) person).getCnpj();
         }
         final Collection<PersonIdentity> identities = personIdentityRepositoryJpa.findByDocumentTypeAndNumber(documentTypeEnum, documentNumber);
         final PersonIdentity personIdentity = identities.stream().findFirst().orElseGet(() -> personIdentityRepositoryJpa.save(new PersonIdentity(UUID.randomUUID().toString(), documentTypeEnum, documentNumber, "BR")));

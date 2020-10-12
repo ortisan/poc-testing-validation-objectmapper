@@ -3,6 +3,6 @@ package com.ortiz.domain;
 import lombok.Data;
 
 @Data
-public class Corporate extends Person {
+public class CorporatePerson extends Person {
     private String cnpj;
 }

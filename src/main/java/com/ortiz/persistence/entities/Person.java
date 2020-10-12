@@ -2,10 +2,9 @@ package com.ortiz.persistence.entities;
 
 import lombok.Data;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
+import java.util.List;
+
 
 @Data
 @Entity
@@ -15,4 +14,6 @@ public abstract class Person {
     private PersonId personId;
     private String type;
     private String name;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Phone> phones;
 }

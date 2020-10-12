@@ -1,8 +1,8 @@
 package com.ortiz.domain.mapper;
 
-import com.ortiz.domain.Corporate;
+import com.ortiz.domain.CorporatePerson;
 import com.ortiz.domain.Person;
-import com.ortiz.domain.PhisicalPerson;
+import com.ortiz.domain.PhysicalPerson;
 import com.ortiz.dto.PersonDTO;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -12,22 +12,22 @@ import org.mapstruct.Mapping;
 public interface IPersonBusinessMapper {
 
     @Mapping(source = "cpf_cnpj", target = "cpf")
-    PhisicalPerson dtoToPhisicalPersonDomain(PersonDTO source);
+    PhysicalPerson dtoToPhisicalPersonDomain(PersonDTO source);
 
     @Mapping(source = "cpf_cnpj", target = "cnpj")
-    Corporate dtoToCorporateDomain(PersonDTO source);
+    CorporatePerson dtoToCorporateDomain(PersonDTO source);
 
     @InheritInverseConfiguration(name = "dtoToPhisicalPersonDomain")
-    PersonDTO domainToDto(PhisicalPerson source);
+    PersonDTO domainToDto(PhysicalPerson source);
 
     @InheritInverseConfiguration(name = "dtoToCorporateDomain")
-    PersonDTO domainToDto(Corporate source);
+    PersonDTO domainToDto(CorporatePerson source);
 
     default PersonDTO mapToDto(Person person) {
-        if (person instanceof PhisicalPerson) {
-            return this.domainToDto((PhisicalPerson) person);
+        if (person instanceof PhysicalPerson) {
+            return this.domainToDto((PhysicalPerson) person);
         }
-        return this.domainToDto((Corporate) person);
+        return this.domainToDto((CorporatePerson) person);
     }
 
     default Person mapToDomain(PersonDTO person) {
