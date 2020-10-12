@@ -1,10 +1,10 @@
-package com.ortiz.rules.impl;
+package com.ortiz.business.rules.impl;
 
 import br.com.fluentvalidator.context.ValidationResult;
 import com.ortiz.domain.Phone;
-import com.ortiz.rules.IPhoneRule;
-import com.ortiz.rules.validator.PhoneInsertValidator;
-import com.ortiz.rules.validator.utils.ValidatorUtils;
+import com.ortiz.business.rules.IPhoneRule;
+import com.ortiz.business.rules.validator.PhoneInsertValidator;
+import com.ortiz.business.rules.validator.utils.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

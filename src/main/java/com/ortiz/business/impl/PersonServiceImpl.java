@@ -5,12 +5,10 @@ import com.ortiz.domain.Person;
 import com.ortiz.domain.mapper.IPersonBusinessMapper;
 import com.ortiz.dto.PersonDTO;
 import com.ortiz.persistence.repositories.service.IPersonRepository;
-import com.ortiz.rules.IPersonInsertRule;
-import com.ortiz.rules.IPersonUpdateRule;
+import com.ortiz.business.rules.IPersonInsertRule;
+import com.ortiz.business.rules.IPersonUpdateRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 public class PersonServiceImpl implements IPersonService {

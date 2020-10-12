@@ -1,4 +1,4 @@
-package com.ortiz.rules.validator;
+package com.ortiz.business.rules.validator;
 
 import br.com.fluentvalidator.AbstractValidator;
 import com.ortiz.domain.Person;

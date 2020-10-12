@@ -1,4 +1,4 @@
-package com.ortiz.rules.validator.utils;
+package com.ortiz.business.rules.validator.utils;
 
 import br.com.fluentvalidator.context.Error;
 import br.com.fluentvalidator.context.ValidationResult;

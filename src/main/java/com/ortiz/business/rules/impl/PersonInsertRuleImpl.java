@@ -1,4 +1,4 @@
-package com.ortiz.rules.impl;
+package com.ortiz.business.rules.impl;
 
 
 import br.com.fluentvalidator.context.Error;
@@ -7,11 +7,11 @@ import com.ortiz.domain.CorporatePerson;
 import com.ortiz.domain.Person;
 import com.ortiz.domain.Phone;
 import com.ortiz.domain.PhysicalPerson;
-import com.ortiz.rules.IPersonInsertRule;
-import com.ortiz.rules.IPhoneRule;
-import com.ortiz.rules.validator.CorporatePersonInsertValidator;
-import com.ortiz.rules.validator.PhysicalPersonInsertValidator;
-import com.ortiz.rules.validator.utils.ValidatorUtils;
+import com.ortiz.business.rules.IPersonInsertRule;
+import com.ortiz.business.rules.IPhoneRule;
+import com.ortiz.business.rules.validator.CorporatePersonInsertValidator;
+import com.ortiz.business.rules.validator.PhysicalPersonInsertValidator;
+import com.ortiz.business.rules.validator.utils.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

@@ -1,4 +1,4 @@
-package com.ortiz.rules.validator.utils;
+package com.ortiz.business.rules.validator.utils;
 
 import br.com.caelum.stella.validation.CNPJValidator;
 import br.com.caelum.stella.validation.CPFValidator;

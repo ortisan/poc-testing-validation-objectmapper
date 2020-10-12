@@ -1,4 +1,4 @@
-package com.ortiz.rules.impl;
+package com.ortiz.business.rules.impl;
 
 
 import br.com.fluentvalidator.context.Error;
@@ -7,21 +7,19 @@ import com.ortiz.domain.CorporatePerson;
 import com.ortiz.domain.Person;
 import com.ortiz.domain.Phone;
 import com.ortiz.domain.PhysicalPerson;
-import com.ortiz.rules.IPersonUpdateRule;
-import com.ortiz.rules.IPhoneRule;
-import com.ortiz.rules.validator.CorporatePersonUpdateValidator;
-import com.ortiz.rules.validator.PhysicalPersonUpdateValidator;
-import com.ortiz.rules.validator.utils.ValidatorUtils;
+import com.ortiz.business.rules.IPersonUpdateRule;
+import com.ortiz.business.rules.IPhoneRule;
+import com.ortiz.business.rules.validator.CorporatePersonUpdateValidator;
+import com.ortiz.business.rules.validator.PhysicalPersonUpdateValidator;
+import com.ortiz.business.rules.validator.utils.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Validated
 @Service
