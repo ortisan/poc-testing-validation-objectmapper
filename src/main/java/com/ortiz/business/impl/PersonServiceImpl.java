@@ -1,12 +1,11 @@
 package com.ortiz.business.impl;
 
 import com.ortiz.business.IPersonService;
+import com.ortiz.business.rules.IPersonRule;
 import com.ortiz.domain.Person;
 import com.ortiz.domain.mapper.IPersonBusinessMapper;
 import com.ortiz.dto.PersonDTO;
 import com.ortiz.persistence.repositories.service.IPersonRepository;
-import com.ortiz.business.rules.IPersonInsertRule;
-import com.ortiz.business.rules.IPersonUpdateRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +19,8 @@ public class PersonServiceImpl implements IPersonService {
     private IPersonBusinessMapper personBusinessMapper;
 
     @Autowired
-    private IPersonInsertRule personInsertRule;
+    private IPersonRule personRule;
 
-    @Autowired
-    private IPersonUpdateRule personUpdateRule;
 
     @Override
     public PersonDTO getPerson(String tenantId, String personId) {
@@ -34,7 +31,7 @@ public class PersonServiceImpl implements IPersonService {
     @Override
     public PersonDTO savePerson(PersonDTO personDTO) {
         final Person person = personBusinessMapper.mapToDomain(personDTO);
-        personInsertRule.validate(person);
+        personRule.validate(person, true);
 
         final Person personSaved = personRepository.savePerson(person);
         return personBusinessMapper.mapToDto(personSaved);
@@ -43,7 +40,7 @@ public class PersonServiceImpl implements IPersonService {
     @Override
     public PersonDTO updatePerson(PersonDTO personDTO) {
         final Person person = personBusinessMapper.mapToDomain(personDTO);
-        personInsertRule.validate(person);
+        personRule.validate(person, false);
         final Person personSaved = personRepository.savePerson(person);
         return personBusinessMapper.mapToDto(personSaved);
     }

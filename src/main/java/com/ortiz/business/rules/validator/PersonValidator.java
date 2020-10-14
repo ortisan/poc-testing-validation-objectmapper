@@ -4,21 +4,34 @@ import br.com.fluentvalidator.AbstractValidator;
 import com.ortiz.domain.Person;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
 import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;
 import static br.com.fluentvalidator.predicate.StringPredicate.stringSizeBetween;
 
-public abstract class PersonUpdateValidator<P extends Person> extends AbstractValidator<P> {
+public abstract class PersonValidator <P extends Person> extends AbstractValidator<P> {
+
+    protected boolean isInsert;
+
+    protected PersonValidator(boolean insert) {
+        this.isInsert = insert;
+    }
 
     @Override
     public void rules() {
         setPropertyOnContext(this.getClass().getName());
-
-        ruleFor("Id person", (P p)-> p.getPersonIdentity().getId())
-                .must(not(stringEmptyOrNull()))
-                .withMessage("Person Id is required")
-                .critical();
+        if (isInsert) {
+            ruleFor((P p)-> Optional.ofNullable(p.getPersonIdentity()).map(personIdentity -> personIdentity.getId()).orElseGet(() -> null))
+                    .must(stringEmptyOrNull())
+                    .withMessage("Person must not have id in this operation")
+                    .critical();
+        } else {
+            ruleFor( (P p)-> p.getPersonIdentity().getId())
+                    .must(not(stringEmptyOrNull()))
+                    .withMessage("Person Id is required")
+                    .critical();
+        }
 
         ruleFor(Person::getTenantId)
                 .must(not(stringEmptyOrNull()))

@@ -1,5 +1,6 @@
 package com.ortiz.business.rules.validator;
 
+import br.com.fluentvalidator.context.ValidationResult;
 import com.ortiz.domain.CorporatePerson;
 import com.ortiz.business.rules.validator.utils.PredicatesUtils;
 import org.springframework.stereotype.Component;
@@ -7,8 +8,12 @@ import org.springframework.stereotype.Component;
 import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
 import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;
 
-@Component
-public class CorporatePersonUpdateValidator extends PersonInsertValidator<CorporatePerson> {
+
+public class CorporatePersonValidator extends PersonValidator<CorporatePerson> {
+
+    public CorporatePersonValidator(boolean isInsert) {
+        super(isInsert);
+    }
 
     @Override
     public void rules() {
@@ -21,7 +26,5 @@ public class CorporatePersonUpdateValidator extends PersonInsertValidator<Corpor
                 .withMessage("CNPJ is invalid")
                 .critical();
     }
-
-
 }
 

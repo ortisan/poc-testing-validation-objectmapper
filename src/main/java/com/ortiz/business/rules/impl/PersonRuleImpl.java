@@ -3,48 +3,41 @@ package com.ortiz.business.rules.impl;
 
 import br.com.fluentvalidator.context.Error;
 import br.com.fluentvalidator.context.ValidationResult;
+import com.ortiz.business.rules.IPersonRule;
+import com.ortiz.business.rules.IPhoneRule;
+import com.ortiz.business.rules.validator.CorporatePersonValidator;
+import com.ortiz.business.rules.validator.PhysicalPersonValidator;
+import com.ortiz.business.rules.validator.utils.ValidatorUtils;
 import com.ortiz.domain.CorporatePerson;
 import com.ortiz.domain.Person;
 import com.ortiz.domain.Phone;
 import com.ortiz.domain.PhysicalPerson;
-import com.ortiz.business.rules.IPersonInsertRule;
-import com.ortiz.business.rules.IPhoneRule;
-import com.ortiz.business.rules.validator.CorporatePersonInsertValidator;
-import com.ortiz.business.rules.validator.PhysicalPersonInsertValidator;
-import com.ortiz.business.rules.validator.utils.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Validated
+
 @Service
-public class PersonInsertRuleImpl implements IPersonInsertRule {
-
-    @Autowired
-    private PhysicalPersonInsertValidator physicalPersonInsertValidator;
-
-    @Autowired
-    private CorporatePersonInsertValidator corporatePersonInsertValidator;
+public class PersonRuleImpl implements IPersonRule {
 
     @Autowired
     private IPhoneRule phoneRule;
 
     @Override
-    public ValidationResult validate(Person person) {
+    public ValidationResult validate(Person person, boolean isInsert) {
         br.com.fluentvalidator.context.ValidationResult result;
         if (person instanceof PhysicalPerson) {
-            result = physicalPersonInsertValidator.validate((PhysicalPerson) person);
+            result = new PhysicalPersonValidator(isInsert).validate((PhysicalPerson) person);
         } else {
-            result = corporatePersonInsertValidator.validate((CorporatePerson) person);
+            result = new CorporatePersonValidator(isInsert).validate((CorporatePerson) person);
         }
         final List<Phone> phones = person.getPhones();
         if (!CollectionUtils.isEmpty(phones)) {
-            ValidationResult phonesValidationResult = phoneRule.validate(phones);
+            ValidationResult phonesValidationResult = phoneRule.validate(phones, isInsert);
             result = ValidatorUtils.combine(result, phonesValidationResult);
         }
         if (!result.isValid()) {

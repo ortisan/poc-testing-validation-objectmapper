@@ -1,25 +1,29 @@
 package com.ortiz.business.rules.validator;
 
-import com.ortiz.domain.CorporatePerson;
 import com.ortiz.business.rules.validator.utils.PredicatesUtils;
-import org.springframework.stereotype.Component;
+import com.ortiz.domain.PhysicalPerson;
 
 import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
 import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;
 
-@Component
-public class CorporatePersonInsertValidator extends PersonInsertValidator<CorporatePerson> {
+
+public class PhysicalPersonValidator extends PersonValidator<PhysicalPerson> {
+
+    public PhysicalPersonValidator(boolean insert) {
+        super(insert);
+    }
 
     @Override
     public void rules() {
         super.rules();
         setPropertyOnContext(this.getClass().getName());
-        ruleFor(CorporatePerson::getCnpj)
+        ruleFor(PhysicalPerson::getCpf)
                 .must(not(stringEmptyOrNull()))
-                .withMessage("CNPJ is required")
-                .must(PredicatesUtils.isCNPJValid)
-                .withMessage("CNPJ is invalid")
+                .withMessage("CPF is required")
+                .must(PredicatesUtils.isCPFValid)
+                .withMessage("CPF is invalid")
                 .critical();
+
     }
 
 

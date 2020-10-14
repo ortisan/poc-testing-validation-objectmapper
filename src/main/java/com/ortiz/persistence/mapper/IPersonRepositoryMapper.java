@@ -2,11 +2,10 @@ package com.ortiz.persistence.mapper;
 
 
 import com.ortiz.domain.CorporatePerson;
-import com.ortiz.domain.PhysicalPerson;
 import com.ortiz.domain.mapper.IPersonTypeEnumMapper;
 import com.ortiz.persistence.entities.Corporate;
 import com.ortiz.persistence.entities.Person;
-import com.ortiz.persistence.entities.PhisicalPerson;
+import com.ortiz.persistence.entities.PhysicalPerson;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,27 +14,27 @@ import org.mapstruct.Mapping;
 public interface IPersonRepositoryMapper {
 
     @Mapping(source = "cpf", target = "cpf")
-    PhisicalPerson phisicalPersonDomainToEntity(PhysicalPerson phisicalPerson);
+    PhysicalPerson phisicalPersonDomainToEntity(com.ortiz.domain.PhysicalPerson physicalPerson);
 
     @Mapping(source = "cnpj", target = "cnpj")
     Corporate corporateDomainToEntity(CorporatePerson corporate);
 
     @InheritInverseConfiguration(name = "phisicalPersonDomainToEntity")
-    PhysicalPerson entityToDomain(PhisicalPerson corporate);
+    com.ortiz.domain.PhysicalPerson entityToDomain(PhysicalPerson corporate);
 
     @InheritInverseConfiguration(name = "corporateDomainToEntity")
     CorporatePerson entityToDomain(Corporate corporate);
 
     default com.ortiz.domain.Person mapToDomain(Person person) {
-        if (person instanceof PhisicalPerson) {
-            return this.entityToDomain((PhisicalPerson) person);
+        if (person instanceof PhysicalPerson) {
+            return this.entityToDomain((PhysicalPerson) person);
         }
         return this.entityToDomain((Corporate) person);
     }
 
     default Person mapToEntity(com.ortiz.domain.Person person) {
-        if (person instanceof PhysicalPerson) {
-            return this.phisicalPersonDomainToEntity((PhysicalPerson) person);
+        if (person instanceof com.ortiz.domain.PhysicalPerson) {
+            return this.phisicalPersonDomainToEntity((com.ortiz.domain.PhysicalPerson) person);
         }
         return this.corporateDomainToEntity((CorporatePerson) person);
     }

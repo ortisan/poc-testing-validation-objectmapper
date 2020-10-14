@@ -6,6 +6,6 @@ import javax.persistence.Entity;
 
 @Data
 @Entity
-public class PhisicalPerson extends Person {
+public class PhysicalPerson extends Person {
     private String cpf;
 }
