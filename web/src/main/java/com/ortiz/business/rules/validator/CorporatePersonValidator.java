@@ -1,9 +1,7 @@
 package com.ortiz.business.rules.validator;
 
-import br.com.fluentvalidator.context.ValidationResult;
-import com.ortiz.domain.CorporatePerson;
 import com.ortiz.business.rules.validator.utils.PredicatesUtils;
-import org.springframework.stereotype.Component;
+import com.ortiz.domain.CorporatePerson;
 
 import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
 import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;

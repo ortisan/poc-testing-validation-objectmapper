@@ -1,6 +1,6 @@
 package com.ortiz.kafka.producer.scheduller;
 
-import com.ortiz.kafka.producer.MessageProducer;
+import com.ortiz.kafka.producer.KafkaMessageProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class ScheduledTasks {
     private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
     @Autowired
-    private MessageProducer messageProducer;
+    private KafkaMessageProducer messageProducer;
 
     @Scheduled(fixedRate = 10000)
     public void reportCurrentTime() {

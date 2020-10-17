@@ -1,10 +1,12 @@
 package com.ortiz.business.impl;
 
+
 import com.ortiz.business.IPersonService;
 import com.ortiz.business.rules.IPersonRule;
 import com.ortiz.domain.Person;
 import com.ortiz.domain.mapper.IPersonBusinessMapper;
 import com.ortiz.dto.PersonDTO;
+import com.ortiz.kafka.producer.KafkaMessageProducer;
 import com.ortiz.persistence.repositories.service.IPersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class PersonServiceImpl implements IPersonService {
     @Autowired
     private IPersonRule personRule;
 
+    @Autowired
+    private KafkaMessageProducer kafkaMessageProducer;
 
     @Override
     public PersonDTO getPerson(String tenantId, String personId) {
@@ -32,8 +36,8 @@ public class PersonServiceImpl implements IPersonService {
     public PersonDTO savePerson(PersonDTO personDTO) {
         final Person person = personBusinessMapper.mapToDomain(personDTO);
         personRule.validate(person, true);
-
         final Person personSaved = personRepository.savePerson(person);
+        kafkaMessageProducer.sendMessage("Person saved: " + person.toString());
         return personBusinessMapper.mapToDto(personSaved);
     }
 

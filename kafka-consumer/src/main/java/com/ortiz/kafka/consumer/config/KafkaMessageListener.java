@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.CountDownLatch;
 
 @Service
-public class MessageListener {
+public class KafkaMessageListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(MessageListener.class);
+    private static final Logger logger = LoggerFactory.getLogger(KafkaMessageListener.class);
 
     private CountDownLatch latch = new CountDownLatch(3);
 
