@@ -29,7 +29,7 @@ public class PersonRuleImpl implements IPersonRule {
 
     @Override
     public ValidationResult validate(Person person, boolean isInsert) {
-        br.com.fluentvalidator.context.ValidationResult result;
+        ValidationResult result;
         if (person instanceof PhysicalPerson) {
             result = new PhysicalPersonValidator(isInsert).validate((PhysicalPerson) person);
         } else {

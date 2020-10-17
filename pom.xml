@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -17,7 +18,29 @@
         <java.version>11</java.version>
         <org.mapstruct.version>1.4.0.Final</org.mapstruct.version>
         <org.projectlombok.version>1.18.12</org.projectlombok.version>
+        <com.github.mvallim.version>1.9.1</com.github.mvallim.version>
+        <br.com.caelum.stella.version>2.1.2</br.com.caelum.stella.version>
     </properties>
+
+    <modules>
+        <module>kafka-producer</module>
+        <module>kafka-consumer</module>
+        <module>web</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <type>pom</type>
+                <version>2.3.4.RELEASE</version>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -27,37 +50,36 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!-- Spring Kafka -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
             <version>${org.projectlombok.version}</version>
         </dependency>
+        <!-- Mapstruct -->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
+        <!-- Validations -->
         <dependency>
             <groupId>com.github.mvallim</groupId>
             <artifactId>java-fluent-validator</artifactId>
-            <version>1.9.1</version>
+            <version>${com.github.mvallim.version}</version>
         </dependency>
         <dependency>
             <groupId>br.com.caelum.stella</groupId>
             <artifactId>caelum-stella-core</artifactId>
-            <version>2.1.2</version>
+            <version>${br.com.caelum.stella.version}</version>
         </dependency>
-        <!-- H2 Database -->
+        <!-- Database -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -74,12 +96,9 @@
             </exclusions>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
