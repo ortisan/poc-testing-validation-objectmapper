@@ -8,11 +8,15 @@ import com.ortiz.domain.mapper.IPersonBusinessMapper;
 import com.ortiz.dto.PersonDTO;
 import com.ortiz.kafka.producer.KafkaMessageProducer;
 import com.ortiz.persistence.repositories.service.IPersonRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PersonServiceImpl implements IPersonService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PersonServiceImpl.class);
 
     @Autowired
     private IPersonRepository personRepository;
@@ -26,6 +30,7 @@ public class PersonServiceImpl implements IPersonService {
     @Autowired
     private KafkaMessageProducer kafkaMessageProducer;
 
+
     @Override
     public PersonDTO getPerson(String tenantId, String personId) {
         final Person person = personRepository.getPerson(tenantId, personId);
@@ -37,7 +42,15 @@ public class PersonServiceImpl implements IPersonService {
         final Person person = personBusinessMapper.mapToDomain(personDTO);
         personRule.validate(person, true);
         final Person personSaved = personRepository.savePerson(person);
-        kafkaMessageProducer.sendMessage("Person saved: " + person.toString());
+        try {
+            // EXAMPLE
+            com.ortiz.testingavro.Person personAvro = new com.ortiz.testingavro.Person(person.getTenantId(), person.getFullName());
+            kafkaMessageProducer.sendMessage(personAvro);
+        } catch (Exception exc) {
+            logger.error("Error to read schema", exc);
+        }
+
+
         return personBusinessMapper.mapToDto(personSaved);
     }
 

@@ -1,8 +1,8 @@
 # testing-validation-objectmapper
 
-Project for testing the crud application with events of crud.
+Project for testing the crud application with kafka events of crud.
 
-### Pre Reqs:
+### Pre-Reqs:
 
 Start the docker containers:
 
@@ -24,7 +24,36 @@ kafka-topics --list --zookeeper zookeeper:2181
 ```
 
 Send and Consume Message (AD HOC):
+
 ```sh
 kafka-console-producer --broker-list localhost:9092 --topic test
-kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+kafka-console-consumer --bootstrap-server localhost:9092 --topic test --from-beginning
 ```
+
+Registering schema:
+
+```sh
+cd web/src/main/resources
+python3 register_schema.py http://localhost:8081 persons-avro persons.avsc
+```
+
+#### Application urls:
+
+Zookeeper: localhost:2181
+
+Broker: localhost:9092
+
+Schema registry: localhost:8081
+
+List of registries versions: http://localhost:8081/subjects/persons-avro-value/versions/
+
+Application: localhost:8080
+
+#### Useful Links:
+
+
+[Docker images](https://github.com/confluentinc/cp-all-in-one)
+
+[Schema registry](https://aseigneurin.github.io/2018/08/02/kafka-tutorial-4-avro-and-schema-registry.html)
+
+[Python script for schema registry](https://gist.github.com/aseigneurin/5730c07b4136a84acb5aeec42310312c)

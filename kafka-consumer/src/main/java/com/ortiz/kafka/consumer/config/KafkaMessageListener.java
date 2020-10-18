@@ -1,5 +1,6 @@
 package com.ortiz.kafka.consumer.config;
 
+import com.ortiz.testingavro.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -15,7 +16,7 @@ public class KafkaMessageListener {
     private CountDownLatch latch = new CountDownLatch(3);
 
     @KafkaListener(topics = "${kafka.topic-name}", containerFactory = "kafkaListenerContainerFactory")
-    public void listenMessage(String message) {
+    public void listenMessage(Person message) {
         logger.info("Received Message: " + message);
         latch.countDown();
     }

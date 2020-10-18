@@ -20,12 +20,16 @@
         <org.projectlombok.version>1.18.12</org.projectlombok.version>
         <com.github.mvallim.version>1.9.1</com.github.mvallim.version>
         <br.com.caelum.stella.version>2.1.2</br.com.caelum.stella.version>
+        <io.confluent.avro-serializer.version>5.0.0</io.confluent.avro-serializer.version>
+        <avro.version>1.8.2</avro.version>
     </properties>
 
     <modules>
         <module>kafka-producer</module>
         <module>kafka-consumer</module>
         <module>web</module>
+        <module>avro-payload-generator</module>
+        <module>kafka-domain</module>
     </modules>
 
     <dependencyManagement>
@@ -54,6 +58,11 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-avro-serializer</artifactId>
+            <version>${io.confluent.avro-serializer.version}</version>
         </dependency>
         <!-- Lombok -->
         <dependency>
@@ -134,4 +143,10 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>confluent</id>
+            <url>http://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
 </project>

@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "Person",
+  "namespace": "com.ortiz.testing-validation-objectmapper",
+  "fields": [
+    {
+      "name": "tenantId",
+      "type": "string"
+    },
+    {
+      "name": "fullName",
+      "type": "string"
+    }
+  ]
+}
