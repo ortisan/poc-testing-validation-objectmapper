@@ -37,11 +37,32 @@ cd web/src/main/resources
 python3 register_schema.py http://localhost:8081 persons-avro persons.avsc
 ```
 
+### Testing
+
+1. Start the containers:
+    ```sh
+   docker-compose up -d
+   ```
+1. Start the Consumer application
+2. Start Web application
+3. Use postman collection (TestingValidationObjectMapper.postman_collection) to send post
+4. Consumer application must show the received messages:
+    ```sh
+    2020-10-18 17:41:39.603  INFO 69348 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-testGroup-1, groupId=testGroup] Setting offset for partition test-0 to the committed offset FetchPosition{offset=55, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null)], epoch=0}}
+    2020-10-18 17:41:39.603  INFO 69348 --- [ntainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : testGroup: partitions assigned: [test-0]
+    2020-10-18 17:41:39.606  INFO 69348 --- [ntainer#0-0-C-1] c.o.k.c.config.KafkaMessageListener      : Received Message: {"tenantId": "1234", "fullName": "Marcelo"}
+    2020-10-18 17:41:48.005  INFO 69348 --- [ntainer#0-0-C-1] c.o.k.c.config.KafkaMessageListener      : Received Message: {"tenantId": "1234", "fullName": "Marcelo"}
+    2020-10-18 17:41:55.680  INFO 69348 --- [ntainer#0-0-C-1] c.o.k.c.config.KafkaMessageListener      : Received Message: {"tenantId": "1234", "fullName": "Marcelo"}
+    2020-10-18 17:41:56.872  INFO 69348 --- [ntainer#0-0-C-1] c.o.k.c.config.KafkaMessageListener      : Received Message: {"tenantId": "1234", "fullName": "Marcelo"}
+    ```
+
 #### Application urls:
 
 Zookeeper: localhost:2181
 
 Broker: localhost:9092
+
+Cluster: http://localhost:9021/clusters
 
 Schema registry: localhost:8081
 
