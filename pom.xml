@@ -28,7 +28,6 @@
         <module>kafka-producer</module>
         <module>kafka-consumer</module>
         <module>web</module>
-        <module>avro-payload-generator</module>
         <module>kafka-domain</module>
     </modules>
 
