@@ -26,18 +26,26 @@ public class PersonRuleImpl implements IPersonRule {
 
     @Autowired
     private IPhoneRule phoneRule;
+    @Autowired
+    private PhysicalPersonValidator physicalPersonValidator;
+    @Autowired
+    private CorporatePersonValidator corporatePersonValidator;
 
     @Override
     public ValidationResult validate(Person person, boolean isInsert) {
         ValidationResult result;
+        person.setInsert(isInsert);
         if (person instanceof PhysicalPerson) {
-            result = new PhysicalPersonValidator(isInsert).validate((PhysicalPerson) person);
+            result = physicalPersonValidator.validate((PhysicalPerson) person);
         } else {
-            result = new CorporatePersonValidator(isInsert).validate((CorporatePerson) person);
+            result = corporatePersonValidator.validate((CorporatePerson) person);
         }
         final List<Phone> phones = person.getPhones();
         if (!CollectionUtils.isEmpty(phones)) {
-            ValidationResult phonesValidationResult = phoneRule.validate(phones, isInsert);
+            phones.forEach(phone -> {
+                phone.setInsert(isInsert);
+            });
+            ValidationResult phonesValidationResult = phoneRule.validate(phones);
             result = ValidatorUtils.combine(result, phonesValidationResult);
         }
         if (!result.isValid()) {

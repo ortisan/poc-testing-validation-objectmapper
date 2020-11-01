@@ -1,36 +1,41 @@
 package com.ortiz.business.rules.validator;
 
 import br.com.fluentvalidator.AbstractValidator;
+import br.com.fluentvalidator.context.ValidationContext;
 import com.ortiz.domain.Phone;
+import org.springframework.stereotype.Component;
 
 import static br.com.fluentvalidator.predicate.ComparablePredicate.between;
-import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
 import static br.com.fluentvalidator.predicate.ObjectPredicate.nullValue;
 import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;
+import static java.util.function.Predicate.not;
 
+@Component
 public class PhoneValidator extends AbstractValidator<Phone> {
 
-    private boolean isInsert;
-
-    public PhoneValidator(boolean isInsert) {
-        this.isInsert = isInsert;
-    }
+    private static String PROPERTY_NAME = PhoneValidator.class.getName();
 
     @Override
     public void rules() {
-        setPropertyOnContext(this.getClass().getName());
+        setPropertyOnContext(PROPERTY_NAME);
 
-        if (isInsert) {
-            ruleFor(Phone::getId)
-                    .must(stringEmptyOrNull())
-                    .withMessage("Phone Id must be empty")
-                    .critical();
-        } else {
-            ruleFor(Phone::getId)
-                    .must(not(stringEmptyOrNull()))
-                    .withMessage("Phone Id is required")
-                    .critical();
-        }
+        ruleFor(phone -> phone.getId())
+                .must(stringEmptyOrNull())
+                .when(s -> {
+                    Phone phone = getPropertyOnContext(PROPERTY_NAME, Phone.class);
+                    return phone.isInsert();
+                })
+                .withMessage("Phone Id must be empty")
+                .critical();
+
+        ruleFor(phone -> phone.getId())
+                .must(stringEmptyOrNull())
+                .when(s -> {
+                    Phone phone = getPropertyOnContext(PROPERTY_NAME, Phone.class);
+                    return !phone.isInsert();
+                })
+                .withMessage("Phone Id is required")
+                .critical();
 
         ruleFor(Phone::getDdi)
                 .must(not(nullValue()))

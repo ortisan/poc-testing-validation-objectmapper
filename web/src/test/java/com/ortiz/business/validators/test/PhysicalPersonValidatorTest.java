@@ -27,14 +27,17 @@ public class PhysicalPersonValidatorTest {
         personIdentity.setDocumentNumber("18685964008");
         personIdentity.setDocumentType(DocumentTypeEnum.CPF);
         person.setPersonIdentity(personIdentity);
-        ValidationResult validate = new PhysicalPersonValidator(true).validate(person);
+        person.setInsert(true);
+        ValidationResult validate = new PhysicalPersonValidator().validate(person);
         assertTrue(validate.isValid());
     }
 
     @Test
     public void testValidatorInsertError() {
         PhysicalPerson person = new PhysicalPerson();
-        ValidationResult validate = new PhysicalPersonValidator(true).validate(person);
+        PersonIdentity personIdentity = new PersonIdentity();
+        person.setPersonIdentity(personIdentity);
+        ValidationResult validate = new PhysicalPersonValidator().validate(person);
         assertFalse(validate.isValid());
     }
 

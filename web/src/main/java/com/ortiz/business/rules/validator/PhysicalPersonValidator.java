@@ -2,16 +2,14 @@ package com.ortiz.business.rules.validator;
 
 import com.ortiz.business.rules.validator.utils.PredicatesUtils;
 import com.ortiz.domain.PhysicalPerson;
+import org.springframework.stereotype.Component;
 
 import static br.com.fluentvalidator.predicate.LogicalPredicate.not;
 import static br.com.fluentvalidator.predicate.StringPredicate.stringEmptyOrNull;
 
-
+@Component
 public class PhysicalPersonValidator extends PersonValidator<PhysicalPerson> {
 
-    public PhysicalPersonValidator(boolean insert) {
-        super(insert);
-    }
 
     @Override
     public void rules() {

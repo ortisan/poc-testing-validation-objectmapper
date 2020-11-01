@@ -22,6 +22,7 @@
         <br.com.caelum.stella.version>2.1.2</br.com.caelum.stella.version>
         <io.confluent.avro-serializer.version>5.0.0</io.confluent.avro-serializer.version>
         <avro.version>1.8.2</avro.version>
+        <commons-validator.version>1.7</commons-validator.version>
     </properties>
 
     <modules>
@@ -81,6 +82,11 @@
             <groupId>com.github.mvallim</groupId>
             <artifactId>java-fluent-validator</artifactId>
             <version>${com.github.mvallim.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>${commons-validator.version}</version>
         </dependency>
         <dependency>
             <groupId>br.com.caelum.stella</groupId>

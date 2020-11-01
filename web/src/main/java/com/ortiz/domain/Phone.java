@@ -10,4 +10,5 @@ public class Phone {
     private Integer ddd;
     private Integer number;
     private Integer extensionLine;
+    private boolean insert;
 }

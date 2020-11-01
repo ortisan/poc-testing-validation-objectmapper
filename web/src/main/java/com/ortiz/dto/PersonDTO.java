@@ -12,5 +12,6 @@ public class PersonDTO {
     private String name;
     private String type;
     private String cpf_cnpj;
+    private String email;
     private List<PhoneDTO> phones;
 }

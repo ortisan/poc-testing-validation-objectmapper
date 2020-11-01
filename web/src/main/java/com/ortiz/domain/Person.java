@@ -7,9 +7,11 @@ import java.util.List;
 
 @Data
 public abstract class Person {
+    private boolean insert;
     private PersonIdentity personIdentity;
     private PersonTypeEnum personType;
     private String tenantId;
     private String fullName;
+    private String email;
     private List<Phone> phones;
 }
