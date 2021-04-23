@@ -1,6 +1,6 @@
-# testing-validation-objectmapper
+# POC Testing Validation and Object Mapper
 
-Project for testing the crud application with kafka events of crud.
+Spring boot application for testing the crud application with kafka events of crud.
 
 ### Pre-Reqs:
 
